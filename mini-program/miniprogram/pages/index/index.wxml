@@ -1,0 +1,71 @@
+<!-- 首页 -->
+<view class="container">
+    <!-- 介绍banner -->
+    <view class="intro-banner">
+        <view class="intro-icon"></view>
+        <view class="intro-title">三步生成合规证件照</view>
+        <view class="intro-desc">无需专业摄影知识，快速导出高品质证件照</view>
+
+    <!-- 立即制作按钮 -->
+        <view class="action-button">
+            <button class="btn-primary" bindtap="goToImport">立即制作</button>
+        </view>
+    </view>
+
+    <!-- 照片尺寸功能区 -->
+    <view class="size-section">
+        <view class="section-header">
+            <view class="section-title">选择照片尺寸</view>
+            <view class="view-more" bindtap="showAllSizes">查看全部</view>
+        </view>
+
+        <!-- 照片尺寸选择 -->
+        <view class="size-grid">
+            <view class="size-option {{selectedSize === 'size1' ? 'active' : ''}}" bindtap="selectSize" data-size="size1">
+                <view class="photo-outline">
+                    <view class="size-1inch"></view>
+                </view>
+                <view class="size-text-container">
+                    <view class="size-name">一寸</view>
+                <view class="size-desc">25×35mm</view>
+                </view>
+            </view>
+
+            <view class="size-option {{selectedSize === 'size2' ? 'active' : ''}}" bindtap="selectSize" data-size="size2">
+                <view class="photo-outline">
+                    <view class="size-2inch"></view>
+                </view>
+                <view class="size-text-container">
+                    <view class="size-name">二寸</view>
+                <view class="size-desc">35×45mm</view>
+                </view>
+            </view>
+
+            <view class="size-option {{selectedSize === 'drive' ? 'active' : ''}}" bindtap="selectSize" data-size="drive">
+                <view class="photo-outline">
+                    <view class="size-drive"></view>
+                </view>
+                <view class="size-text-container">
+                    <view class="size-name">驾照/身份证</view>
+                <view class="size-desc">22×32mm</view>
+                </view>
+            </view>
+
+            <view class="size-option {{selectedSize === 'usa' ? 'active' : ''}}" bindtap="selectSize" data-size="usa">
+                <view class="photo-outline">
+                    <view class="size-usa"></view>
+                </view>
+                <view class="size-text-container">
+                    <view class="size-name">美签</view>
+                <view class="size-desc">51×51mm</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- TDesign Toast组件 -->
+<t-toast id="t-toast" />
+
+<!-- TDesign Dialog组件 -->
+<t-dialog id="t-dialog" />

@@ -1,0 +1,44 @@
+<!-- 照片编辑页 -->
+<view class="container">
+    <!-- 顶部尺寸信息 -->
+    <view class="header">
+        <view class="size-info">
+            <view class="size-name">{{currentSize.name}}</view>
+            <view class="size-dimension">{{currentSize.width}}×{{currentSize.height}}mm</view>
+        </view>
+    </view>
+
+    <!-- 照片预览区 -->
+    <view class="photo-preview" style="background-color: {{bgColors[currentBgIndex].value}};">
+        <t-image src="{{imagePath}}" mode="aspectFit" bind:tap="previewImage" width="{{imageWidth}}" height="{{imageHeight}}" />
+    </view>
+
+    <!-- 背景颜色选择 -->
+    <view class="background-section">
+        <view class="section-header">
+            <text class="section-title">背景颜色</text>
+            <text class="selected-color">{{bgColors[currentBgIndex].name}}</text>
+        </view>
+
+        <view class="color-list">
+            <view wx:for="{{bgColors}}" wx:key="index" class="color-item {{index === currentBgIndex ? 'active' : ''}}" bindtap="changeBgColor" data-index="{{index}}">
+                <view class="color-circle" style="background: {{item.value}}"></view>
+                <text class="color-name">{{item.name}}</text>
+            </view>
+        </view>
+    </view>
+
+    <!-- 底部按钮区 -->
+    <view class="footer">
+        <view class="btn-container">
+            <t-button theme="light" size="large" bindtap="goBack" variant="outline" shape="round" class="btn-back">重新选择</t-button>
+            <t-button theme="primary" size="large" bindtap="goToResult" shape="round" class="btn-complete">开始生成</t-button>
+        </view>
+    </view>
+</view>
+
+<!-- 图片预览组件 -->
+<t-image-viewer visible="{{showImageViewer}}" images="{{[imagePath]}}" bind:close="closeImageViewer" initial-index="{{0}}" show-index="{{false}}" />
+
+<!-- Toast组件 -->
+<t-toast id="t-toast" />

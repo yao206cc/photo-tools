@@ -1,0 +1,142 @@
+/* 导入页样式 */
+.container {
+  padding: 30rpx 0;
+}
+
+/* 导入引导区域 */
+.import-guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.guide-icon {
+  color: #0052d9;
+  margin-bottom: 20rpx;
+}
+
+.guide-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 16rpx;
+  color: #222;
+}
+
+.guide-desc {
+  font-size: 28rpx;
+  color: #888;
+}
+
+/* 照片上传区域 */
+.photo-upload-area {
+  width: 100%;
+  padding: 0 30rpx;
+  margin-bottom: 30rpx;
+  box-sizing: border-box;
+}
+
+/* 上传占位区 */
+.upload-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx 0;
+}
+
+.upload-box {
+  width: 200rpx;
+  height: 200rpx;
+  border: 2rpx dashed #0052d9;
+  border-radius: 12rpx;
+  background-color: rgba(0, 82, 217, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon {
+  color: #0052d9;
+  margin-bottom: 16rpx;
+}
+
+.upload-text {
+  font-size: 28rpx;
+  color: #0052d9;
+}
+
+/* 提示卡片 */
+.tip-card {
+  box-sizing: border-box;
+  width: calc(100% - 60rpx);
+  margin: 30rpx;
+  padding: 30rpx;
+  background: #f2f7ff;
+  border-radius: 12rpx;
+  border-left: 8rpx solid #0052d9;
+}
+
+.tip-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.tip-icon {
+  color: #0052d9;
+  margin-right: 12rpx;
+}
+
+.tip-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #0052d9;
+}
+
+.tip-content {
+  color: #555;
+  font-size: 28rpx;
+}
+
+.tip-item {
+  margin-bottom: 12rpx;
+  line-height: 1.6;
+}
+
+/* 照片预览 */
+.photo-preview {
+  width: 100%;
+  margin-top: 40rpx;
+  padding: 30rpx;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.preview-image {
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.preview-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 240rpx;
+  margin-top: 30rpx;
+}
+
+/* 尺寸信息 */
+.size-info {
+  position: fixed;
+  bottom: 40rpx;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 12rpx 0;
+  font-size: 24rpx;
+} 

@@ -1,0 +1,9 @@
+{
+    "navigationBarTitleText": "添加照片",
+  "navigationBarBackgroundColor": "#FFFFFF",
+    "usingComponents": {
+        "t-icon": "tdesign-miniprogram/icon/icon",
+        "t-toast": "tdesign-miniprogram/toast/toast",
+        "t-button": "tdesign-miniprogram/button/button"
+    }
+} 

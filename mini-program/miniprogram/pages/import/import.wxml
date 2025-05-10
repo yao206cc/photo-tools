@@ -1,0 +1,41 @@
+<!-- 照片导入页 -->
+<view class="container">
+  <!-- 引导提示 -->
+  <view class="import-guide">
+    <t-icon name="photo" size="48" class="guide-icon" />
+    <view class="guide-title">添加证件照</view>
+    <view class="guide-desc">请选择或拍摄一张正面清晰的照片</view>
+  </view>
+  
+  <!-- 照片上传区域 -->
+  <view class="photo-upload-area">
+    <!-- 上传按钮 -->
+    <view class="upload-placeholder" bindtap="showActionSheet">
+      <view class="upload-box">
+        <t-icon name="add" size="28" class="upload-icon" />
+        <text class="upload-text">选择照片</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 拍摄提示 -->
+  <view class="tip-card">
+    <view class="tip-header">
+      <t-icon name="info-circle" size="20" class="tip-icon" />
+      <text class="tip-title">拍摄小技巧</text>
+    </view>
+    <view class="tip-content">
+      <view class="tip-item">• 请正对光源，保持面部无阴影</view>
+      <view class="tip-item">• 背景颜色尽量选择纯色墙面</view>
+      <view class="tip-item">• 摄像头与面部保持50-80cm的距离</view>
+    </view>
+  </view>
+</view>
+
+<!-- 当前选择的尺寸信息 -->
+<view class="size-info" wx:if="{{currentSize}}">
+  <text>当前选择: {{currentSize.name}} ({{currentSize.width}}×{{currentSize.height}}mm)</text>
+</view>
+
+<!-- TDesign Toast组件 -->
+<t-toast id="t-toast" /> 

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "智能证件照",
+  "usingComponents": {
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-dialog": "tdesign-miniprogram/dialog/dialog",
+    "t-button": "tdesign-miniprogram/button/button"
+  }
+}

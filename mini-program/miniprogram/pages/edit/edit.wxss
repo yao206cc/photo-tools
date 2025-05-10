@@ -1,0 +1,272 @@
+/* 编辑页样式 */
+page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9fafc;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 30rpx 24rpx;
+    box-sizing: border-box;
+}
+
+/* 顶部尺寸信息 */
+.header {
+    margin-bottom: 20rpx;
+}
+
+.size-info {
+    background-color: #ffffff;
+    padding: 20rpx 24rpx;
+    border-radius: 12rpx;
+    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.size-name {
+    font-size: 32rpx;
+    font-weight: 500;
+    color: #333333;
+}
+
+.size-dimension {
+    font-size: 28rpx;
+    color: #888888;
+}
+
+/* 照片预览区域 */
+.preview-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30rpx;
+}
+
+.photo-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: 16rpx;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.08);
+    margin-bottom: 40rpx;
+}
+
+.photo-image {
+    width: 100%;
+}
+
+/* 背景颜色选择区域 */
+.background-section {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 12rpx;
+    padding: 24rpx;
+    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+    margin-bottom: 24rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title {
+    font-size: 32rpx;
+    font-weight: 500;
+    color: #333333;
+}
+
+.selected-color {
+    font-size: 26rpx;
+    color: #0052d9;
+    background-color: #f2f7ff;
+    padding: 4rpx 16rpx;
+    border-radius: 20rpx;
+}
+
+/* 颜色列表 */
+.color-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.color-item {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20rpx;
+}
+
+.color-circle {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-bottom: 10rpx;
+    border: 2rpx solid #eee;
+    transition: all 0.2s ease;
+}
+
+.color-item.active .color-circle {
+    transform: scale(1.1);
+    border: 3rpx solid #0052d9;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+.color-name {
+    font-size: 24rpx;
+    color: #666666;
+}
+
+/* 底部按钮区域 */
+.footer {
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 20rpx 0 40rpx 0;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.btn-back,
+.btn-complete {
+    width: 45%;
+}
+
+/* 适配 iPhone X 等机型底部安全区域 */
+.safe-bottom {
+    height: env(safe-area-inset-bottom);
+}
+
+/* 侧边工具栏 */
+.side-tools {
+    position: absolute;
+    right: 30rpx;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20rpx;
+    padding: 24rpx 12rpx;
+    box-shadow: 0 8rpx 40rpx rgba(0, 0, 0, 0.1);
+}
+
+.side-tool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 16rpx 0;
+    color: #666;
+}
+
+.side-tool-item.active {
+    color: #0052d9;
+}
+
+.side-tool-icon {
+    width: 84rpx;
+    height: 84rpx;
+    background: #f5f7fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8rpx;
+    transition: all 0.2s ease;
+}
+
+.side-tool-item.active .side-tool-icon {
+    background: #f2f7ff;
+}
+
+/* 合规检查面板 */
+.compliance-panel {
+    position: absolute;
+    bottom: 150rpx;
+    left: 30rpx;
+    right: 30rpx;
+    background: #fff;
+    border-radius: 20rpx;
+    padding: 30rpx;
+    box-shadow: 0 -8rpx 30rpx rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+.compliance-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20rpx;
+    font-size: 28rpx;
+}
+
+.compliance-item text {
+    margin-left: 16rpx;
+}
+
+.compliance-item.success t-icon {
+    color: #07c160;
+}
+
+.compliance-item.warning t-icon {
+    color: #ff9800;
+}
+
+.compliance-note {
+    margin-top: 20rpx;
+    background: #fff7e6;
+    padding: 16rpx;
+    border-radius: 12rpx;
+    display: flex;
+    align-items: center;
+    font-size: 26rpx;
+    color: #ff9800;
+}
+
+.compliance-note t-icon {
+    color: #ff9800;
+    margin-right: 10rpx;
+}
+
+/* 美颜调节面板 */
+.beauty-panel {
+    position: absolute;
+    bottom: 150rpx;
+    left: 30rpx;
+    right: 30rpx;
+    background: #fff;
+    border-radius: 20rpx;
+    padding: 30rpx;
+    box-shadow: 0 -8rpx 30rpx rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+.beauty-item {
+    margin-bottom: 28rpx;
+}
+
+.beauty-item text {
+    display: block;
+    font-size: 28rpx;
+    font-weight: 500;
+    margin-bottom: 14rpx;
+}

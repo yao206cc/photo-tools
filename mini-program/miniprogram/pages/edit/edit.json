@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "编辑照片",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "t-image": "tdesign-miniprogram/image/image",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-icon": "tdesign-miniprogram/icon/icon", 
+    "t-image-viewer": "tdesign-miniprogram/image-viewer/image-viewer"
+  }
+} 

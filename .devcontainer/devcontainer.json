@@ -1,0 +1,29 @@
+{
+  "name": "微信小程序开发环境",
+  "build": {
+    "dockerfile": "../mini-program/Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/app",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      }
+    }
+  },
+  "forwardPorts": [],
+  "remoteUser": "root",
+  "postCreateCommand": "cd /app/mini-program/miniprogram && npm install"
+} 

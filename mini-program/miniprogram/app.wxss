@@ -1,0 +1,108 @@
+/**app.wxss**/
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+button {
+    background: initial;
+}
+
+button:focus {
+    outline: 0;
+}
+
+button::after {
+    border: none;
+}
+
+
+page {
+    background: #f5f7fa;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* 主题色 */
+.theme-color {
+    color: #0052d9;
+}
+
+.theme-bg {
+    background-color: #0052d9;
+}
+
+/* 通用按钮样式 */
+.btn {
+    width: 90%;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 12px auto;
+}
+
+.btn-primary {
+    background: #0052d9;
+    color: #fff;
+}
+
+.btn-success {
+    background: #07c160;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #f5f7fa;
+    color: #0052d9;
+    border: 1px solid #0052d9;
+}
+
+.btn-light {
+    background: #f5f7fa;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+/* 卡片组件样式 */
+.card {
+    background: #fff;
+    border-radius: 12px;
+    margin: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* 间距工具类 */
+.mt-8 {
+    margin-top: 8px;
+}
+
+.mt-16 {
+    margin-top: 16px;
+}
+
+.mb-8 {
+    margin-bottom: 8px;
+}
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+
+/* 覆盖TDesign图标字体URL */
+@font-face {
+    font-family: t;
+    src: url('./fonts/t.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

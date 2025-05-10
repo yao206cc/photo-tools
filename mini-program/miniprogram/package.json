@@ -1,0 +1,14 @@
+{
+  "name": "photo-id-miniprogram",
+  "version": "2.0.0",
+  "description": "证件照小程序",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tdesign-miniprogram": "^1.1.14"
+  }
+}

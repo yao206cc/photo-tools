@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能证件照 - 原型图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 40px;
+        }
+        .instructions {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .instructions h2 {
+            color: #0052d9;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        .instructions p {
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #666;
+        }
+        .instructions ul {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        .prototype-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            justify-content: center;
+        }
+        .prototype-title {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        .prototype-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+        }
+        .phone-container {
+            width: 375px; /* 保持宽度为375px，符合标准移动设备宽度 */
+            height: 667px; /* 调整为16:9比例更符合大多数设备 */
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #eaeaea;
+        }
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 30px;
+            background: #000;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            z-index: 10;
+        }
+        .status-bar {
+            height: 44px;
+            width: 100%;
+            background: #fff;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 12px;
+            z-index: 9;
+        }
+        .status-bar-time {
+            font-weight: 600;
+        }
+        .status-bar-icons {
+            display: flex;
+            gap: 4px;
+        }
+        .status-bar-icon {
+            width: 16px;
+            height: 16px;
+            background: #333;
+            border-radius: 50%;
+        }
+        .page-title {
+            text-align: center;
+            margin: 10px 0 20px;
+            color: #666;
+            font-size: 16px;
+        }
+        .page {
+            width: 100%;
+            height: calc(100% - 44px);
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            height: 48px;
+            background: #fff;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-size: 18px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 8;
+        }
+        .header .back {
+            position: absolute;
+            left: 16px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            color: #0052d9;
+        }
+        .back::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid #0052d9;
+            border-bottom: 2px solid #0052d9;
+            transform: rotate(45deg);
+            margin-right: 2px;
+        }
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            background: #f5f7fa;
+        }
+        .btn {
+            background: #0052d9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+            width: 86%;
+            max-width: 335px;
+        }
+        .btn-secondary {
+            background: #f5f7fa;
+            color: #0052d9;
+            border: 1px solid #0052d9;
+        }
+        .btn-light {
+            background: #f5f7fa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+        .btn-success {
+            background: #07c160;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            margin: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .size-option {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            transition: all 0.2s;
+        }
+        .size-option.active {
+            border: 2px solid #0052d9;
+            box-shadow: 0 3px 12px rgba(0,82,217,0.1);
+        }
+        .size-option img {
+            width: 70px;
+            height: 80px;
+            margin-bottom: 12px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .size-option p {
+            margin-bottom: 4px;
+        }
+        .intro-banner {
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #fff 0%, #f7faff 100%);
+        }
+        .intro-icon {
+            width: 120px;
+            height: 140px;
+            margin: 0 auto 20px;
+            background: #0052d9;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,82,217,0.15);
+        }
+        .intro-icon::before {
+            content: "";
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 40px;
+            position: absolute;
+        }
+        .intro-icon::after {
+            content: "ID";
+            font-size: 40px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+        .intro-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .import-options {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 24px;
+            gap: 16px;
+        }
+        .import-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+        .import-icon {
+            width: 48px;
+            height: 48px;
+            background: #f2f7ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+        }
+        .import-icon-inner {
+            width: 24px;
+            height: 24px;
+            background: #0052d9;
+            border-radius: 50%;
+        }
+        .import-text h3 {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .import-text p {
+            font-size: 14px;
+            color: #888;
+        }
+        .tip-card {
+            margin: 24px;
+            padding: 16px 20px;
+            background: #f2f7ff;
+            border-radius: 12px;
+            border-left: 4px solid #0052d9;
+        }
+        .tip-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #0052d9;
+            display: flex;
+            align-items: center;
+        }
+        .tip-title::before {
+            content: "!";
+            width: 18px;
+            height: 18px;
+            background: #0052d9;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tip-content {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .photo-preview {
+            width: 85%;
+            height: 340px;
+            margin: 24px auto;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px 0;
+            background: #fff;
+            border-top: 1px solid #f0f0f0;
+        }
+        .toolbar-item {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+        }
+        .toolbar-icon {
+            width: 44px;
+            height: 44px;
+            background: #f5f7fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 6px;
+        }
+        .toolbar-icon-inner {
+            width: 24px;
+            height: 24px;
+            background: #999;
+            border-radius: 50%;
+        }
+        .toolbar-item.active .toolbar-icon {
+            background: #f2f7ff;
+        }
+        .toolbar-item.active .toolbar-icon-inner {
+            background: #0052d9;
+        }
+        .toolbar-item.active {
+            color: #0052d9;
+            font-weight: 500;
+        }
+        .side-tools {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            gap: 16px;
+        }
+        .side-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #666;
+            font-size: 12px;
+        }
+        .side-tool-icon {
+            width: 40px;
+            height: 40px;
+            background: #f5f7fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .side-tool-icon-inner {
+            width: 20px;
+            height: 20px;
+            background: #999;
+            border-radius: 50%;
+        }
+        .watermark {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            background: rgba(255,255,255,0.8);
+            padding: 4px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+            color: #666;
+        }
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            gap: 12px;
+        }
+        .result-info {
+            margin: 24px;
+            padding: 16px;
+            background: #fff;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+        .result-actions {
+            padding: 24px;
+            border-top: 1px solid #f0f0f0;
+            background: white;
+        }
+        .color-options {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px 0;
+            margin-top: 8px;
+        }
+        .color-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+        }
+        .color-circle.active {
+            border-color: #0052d9;
+            box-shadow: 0 0 0 2px rgba(0,82,217,0.2);
+        }
+        .color-name {
+            font-size: 13px;
+            color: #666;
+        }
+        .compliance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: #f2fff5;
+            color: #07c160;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        .compliance-badge::before {
+            content: "✓";
+            width: 16px;
+            height: 16px;
+            background: #07c160;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        .home-nav-button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 5px;
+            background: #000;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="prototype-title">智能证件照小程序原型图</h1>
+    
+    <div class="instructions">
+        <h2>原型说明</h2>
+        <p>这是一个智能证件照小程序的UI原型，展示了主要功能和界面流程：</p>
+        <ul>
+            <li><strong>首页</strong> - 展示主要入口和常用证件照规格</li>
+            <li><strong>照片导入页</strong> - 提供从相册选择或直接拍摄照片的方式</li>
+            <li><strong>编辑页</strong> - 核心功能界面，包含尺寸选择、背景色更换等</li>
+            <li><strong>结果页</strong> - 展示处理结果并提供保存和付费选项</li>
+        </ul>
+        <p>设计尺寸为标准移动设备宽度375px（对应750px的设计稿），按照小程序设计规范实现。</p>
+    </div>
+    
+    <div class="prototype-container">
+        <div class="prototype-row">
+            <!-- 1. 首页 -->
+            <div class="prototype-item">
+                <div class="page-title">首页</div>
+                <div class="phone-container">
+                    <div class="notch"></div>
+                    <div class="status-bar">
+                        <div class="status-bar-time">9:41</div>
+                        <div class="status-bar-icons">
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                        </div>
+                    </div>
+                    <div class="page" id="homepage">
+                        <div class="header">
+                            <h2>智能证件照</h2>
+                        </div>
+                        <div class="content">
+                            <div class="intro-banner">
+                                <div class="intro-icon"></div>
+                                <h2 class="intro-title">三步生成合规证件照</h2>
+                                <p style="color: #888; font-size: 15px;">无需专业摄影知识，快速导出高品质证件照</p>
+                            </div>
+                            
+                            <div class="card" style="margin-top: 8px">
+                                <button class="btn">立即制作</button>
+                            </div>
+                            
+                            <div class="card" style="margin-top: 16px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <p style="font-size: 16px; font-weight: 500; color: #333;">常用规格</p>
+                                    <p style="font-size: 13px; color: #0052d9;">查看全部 ></p>
+                                </div>
+                                
+                                <div class="size-grid">
+                                    <div class="size-option active">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA2MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIGZpbGw9IiMwMDUyZDkiLz48L3N2Zz4=" alt="1寸照片">
+                                        <p style="font-weight: 500;">1寸照片</p>
+                                        <p style="font-size: 12px; color: #888;">25×35mm</p>
+                                    </div>
+                                    <div class="size-option">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA2MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIGZpbGw9IiNlNzRjM2MiLz48L3N2Zz4=" alt="2寸照片">
+                                        <p style="font-weight: 500;">2寸照片</p>
+                                        <p style="font-size: 12px; color: #888;">35×45mm</p>
+                                    </div>
+                                    <div class="size-option">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA2MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2VlZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" alt="驾照照片">
+                                        <p style="font-weight: 500;">驾照照片</p>
+                                        <p style="font-size: 12px; color: #888;">22×32mm</p>
+                                    </div>
+                                    <div class="size-option">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA2MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNzAiIGZpbGw9IiMyZWNjNzEiLz48L3N2Zz4=" alt="美签照片">
+                                        <p style="font-weight: 500;">美签照片</p>
+                                        <p style="font-size: 12px; color: #888;">51×51mm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-nav-button"></div>
+                </div>
+            </div>
+
+            <!-- 2. 照片导入页 -->
+            <div class="prototype-item">
+                <div class="page-title">照片导入页</div>
+                <div class="phone-container">
+                    <div class="notch"></div>
+                    <div class="status-bar">
+                        <div class="status-bar-time">9:41</div>
+                        <div class="status-bar-icons">
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                        </div>
+                    </div>
+                    <div class="page" id="photo-import">
+                        <div class="header">
+                            <div class="back"></div>
+                            <h2>导入照片</h2>
+                        </div>
+                        <div class="content">
+                            <div class="import-options">
+                                <div class="import-card">
+                                    <div class="import-icon">
+                                        <div class="import-icon-inner"></div>
+                                    </div>
+                                    <div class="import-text">
+                                        <h3>从相册选择</h3>
+                                        <p>从手机相册中选择照片</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="import-card">
+                                    <div class="import-icon">
+                                        <div class="import-icon-inner"></div>
+                                    </div>
+                                    <div class="import-text">
+                                        <h3>拍摄照片</h3>
+                                        <p>使用相机拍摄新照片</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tip-card">
+                                <div class="tip-title">拍摄小技巧</div>
+                                <div class="tip-content">
+                                    <p style="margin-bottom: 8px;">请正对光源，保持面部无阴影</p>
+                                    <p>背景颜色尽量选择纯色墙面</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-nav-button"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="prototype-row">
+            <!-- 3. 编辑页（核心界面） -->
+            <div class="prototype-item">
+                <div class="page-title">编辑页（核心界面）</div>
+                <div class="phone-container">
+                    <div class="notch"></div>
+                    <div class="status-bar">
+                        <div class="status-bar-time">9:41</div>
+                        <div class="status-bar-icons">
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                        </div>
+                    </div>
+                    <div class="page" id="edit-page">
+                        <div class="header">
+                            <div class="back"></div>
+                            <h2>编辑照片</h2>
+                        </div>
+                        <div class="content" style="padding: 0; position: relative;">
+                            <div class="photo-preview">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwMDUyZDkiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iNTAiIHk9IjE3MCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI1MCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==" alt="照片预览">
+                                <div class="watermark">智能证件照</div>
+                            </div>
+                            
+                            <div class="side-tools">
+                                <div class="side-tool">
+                                    <div class="side-tool-icon">
+                                        <div class="side-tool-icon-inner"></div>
+                                    </div>
+                                    <span>美颜</span>
+                                </div>
+                                <div class="side-tool">
+                                    <div class="side-tool-icon">
+                                        <div class="side-tool-icon-inner"></div>
+                                    </div>
+                                    <span>合规</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card" style="margin-top: 16px;">
+                                <p style="font-size: 15px; font-weight: 500; color: #333; margin-bottom: 8px;">尺寸选择</p>
+                                <div class="toolbar" style="background: transparent; padding: 8px 0; border: none;">
+                                    <div class="toolbar-item active">
+                                        <div class="toolbar-icon">
+                                            <div class="toolbar-icon-inner"></div>
+                                        </div>
+                                        <span>1寸</span>
+                                    </div>
+                                    <div class="toolbar-item">
+                                        <div class="toolbar-icon">
+                                            <div class="toolbar-icon-inner"></div>
+                                        </div>
+                                        <span>2寸</span>
+                                    </div>
+                                    <div class="toolbar-item">
+                                        <div class="toolbar-icon">
+                                            <div class="toolbar-icon-inner"></div>
+                                        </div>
+                                        <span>驾照</span>
+                                    </div>
+                                    <div class="toolbar-item">
+                                        <div class="toolbar-icon">
+                                            <div class="toolbar-icon-inner"></div>
+                                        </div>
+                                        <span>更多</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <p style="font-size: 15px; font-weight: 500; color: #333; margin-bottom: 8px;">背景颜色</p>
+                                <div class="color-options">
+                                    <div class="color-option">
+                                        <div class="color-circle" style="background: #e74c3c;"></div>
+                                        <span class="color-name">红色</span>
+                                    </div>
+                                    <div class="color-option">
+                                        <div class="color-circle active" style="background: #0052d9;"></div>
+                                        <span class="color-name">蓝色</span>
+                                    </div>
+                                    <div class="color-option">
+                                        <div class="color-circle" style="background: white; border: 1px solid #ddd;"></div>
+                                        <span class="color-name">白色</span>
+                                    </div>
+                                    <div class="color-option">
+                                        <div class="color-circle" style="background: transparent; border: 1px dashed #ddd;"></div>
+                                        <span class="color-name">透明</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bottom-bar">
+                                <button class="btn btn-light" style="flex: 1; max-width: none; margin: 0;">重拍</button>
+                                <button class="btn" style="flex: 2; max-width: none; margin: 0;">下一步</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-nav-button"></div>
+                </div>
+            </div>
+            
+            <!-- 4. 结果页 -->
+            <div class="prototype-item">
+                <div class="page-title">结果页</div>
+                <div class="phone-container">
+                    <div class="notch"></div>
+                    <div class="status-bar">
+                        <div class="status-bar-time">9:41</div>
+                        <div class="status-bar-icons">
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                            <div class="status-bar-icon"></div>
+                        </div>
+                    </div>
+                    <div class="page" id="result-page">
+                        <div class="header">
+                            <div class="back"></div>
+                            <h2>照片结果</h2>
+                        </div>
+                        <div class="content" style="padding: 0;">
+                            <div class="photo-preview">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwMDUyZDkiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iNTAiIHk9IjE3MCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI1MCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==" alt="照片预览">
+                                <div class="watermark">智能证件照</div>
+                            </div>
+                            
+                            <div class="result-info">
+                                <p style="font-weight: 600; color: #333; font-size: 17px;">1寸证件照（25×35mm）</p>
+                                <p style="font-size: 14px; color: #888; margin-top: 8px;">蓝底</p>
+                                <div class="compliance-badge">合规检查通过</div>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button class="btn" style="margin-bottom: 12px;">免费保存电子版</button>
+                                <button class="btn btn-success" style="margin-bottom: 12px;">付费高清打印版 (3元)</button>
+                                <button class="btn btn-secondary">重新编辑</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-nav-button"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

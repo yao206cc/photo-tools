@@ -1,0 +1,178 @@
+/* 页面根容器 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  padding: 24rpx 0;
+}
+
+/* 介绍banner */
+.intro-banner {
+  width: 92%;
+  padding: 40rpx 30rpx;
+  border-radius: 16rpx;
+  background-color: #0066ff;
+  color: #fff;
+  margin-bottom: 30rpx;
+}
+
+.intro-icon {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto 24rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 60rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-icon::after {
+  content: "ID";
+  font-size: 56rpx;
+  font-weight: bold;
+  color: white;
+}
+
+.intro-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+  text-align: center;
+}
+
+.intro-desc {
+  font-size: 28rpx;
+  opacity: 0.9;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+/* 立即制作按钮 */
+.action-button {
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: white;
+  color: #0066ff;
+  font-size: 36rpx;
+  font-weight: bold;
+  padding: 16rpx 80rpx;
+  border-radius: 8rpx;
+  border: none;
+}
+
+/* 尺寸选择区域 */
+.size-section {
+  width: 92%;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+/* 头部标题和查看更多 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.view-more {
+  font-size: 26rpx;
+  color: #0066ff;
+}
+
+/* 尺寸网格 */
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.size-option {
+  display: flex;
+  flex-direction: column;
+  height: 250rpx;
+  padding: 24rpx 16rpx;
+  border-radius: 12rpx;
+  background-color: #f8f9fc;
+  border: 1rpx solid #e6e8eb;
+  transition: all 0.2s;
+}
+
+.size-option.active {
+  background-color: #edf4ff;
+  border-color: #0066ff;
+}
+
+/* 图片部分 */
+.photo-outline {
+  height: 140rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 24rpx;
+}
+
+/* 照片尺寸预览 */
+.size-1inch, .size-2inch, .size-drive, .size-usa {
+  background-color: #fff;
+  border: 1rpx dashed #ccc;
+}
+
+.size-1inch {
+  width: 75rpx;
+  height: 105rpx;
+}
+
+.size-2inch {
+  width: 95rpx;
+  height: 130rpx;
+}
+
+.size-drive {
+  width: 70rpx;
+  height: 100rpx;
+}
+
+.size-usa {
+  width: 105rpx;
+  height: 105rpx;
+}
+
+/* 文字部分 */
+.size-text-container {
+  height: 62rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16rpx;
+  border-top: 1rpx solid rgba(0,0,0,0.05);
+}
+
+.size-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.size-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
