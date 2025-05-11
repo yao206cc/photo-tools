@@ -202,7 +202,7 @@ Page({
           }
 
           const originalFileID = result.data.fileID;
-          
+
           // 获取图片临时URL
           return storageApi.getTempFileURL(originalFileID)
             .then(urlResult => {
@@ -222,7 +222,7 @@ Page({
               if (!processResult.success) {
                 throw new Error('解析图片失败: ' + processResult.error);
               }
-              
+
               // 直接返回处理后的图片URL
               resolve({
                 success: true,
@@ -265,7 +265,6 @@ Page({
             sizeType: this.data.sizeType,
             bgColor: this.data.bgColors[this.data.currentBgIndex].value
           };
-
           // 跳转到结果页，传递处理后的图片URL
           wx.navigateTo({
             url: `/pages/result/result?photoUrl=${encodeURIComponent(processedImageUrl)}&originalFileID=${encodeURIComponent(originalFileID)}&backgroundColor=${this.data.bgColors[this.data.currentBgIndex].value}&width=${this.data.currentSize.width}&height=${this.data.currentSize.height}&sizeName=${this.data.currentSize.name}&compliancePassed=true&warnings=0&physical=${this.data.currentSize.width}mm×${this.data.currentSize.height}mm`

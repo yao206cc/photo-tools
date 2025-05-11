@@ -99,7 +99,7 @@ Page({
       // 计算画布尺寸
       const canvasWidth = Number(width);
       const canvasHeight = Number(height);
-      
+
       this.setData({
         photoUrl,
         originalFileID,
@@ -405,119 +405,63 @@ Page({
         const canvas = res[0].node;
         const ctx = canvas.getContext('2d');
 
-        // 获取画布容器的实际尺寸
-        const containerWidth = res[0].width;
-        const containerHeight = res[0].height;
+        // 导出画布图片并保存
+        wx.canvasToTempFilePath({
+          canvas,
+          success: (res) => {
+            // 上传到云存储
+            storageApi.uploadImage(res.tempFilePath)
+              .then(result => {
+                if (!result.success) {
+                  throw new Error('保存图片失败');
+                }
 
-        // 设置画布尺寸为容器的实际尺寸
-        canvas.width = containerWidth;
-        canvas.height = containerHeight;
+                // 保存到相册
+                return wx.saveImageToPhotosAlbum({
+                  filePath: res.tempFilePath
+                });
+              })
+              .then(() => {
+                this.setData({ isLoading: false });
+                Toast({
+                  context: this,
+                  selector: '#t-toast',
+                  message: '照片已保存到相册'
+                });
+              })
+              .catch(err => {
+                this.setData({ isLoading: false });
+                console.error('保存图片失败', err);
 
-        // 绘制背景色
-        ctx.fillStyle = this.data.backgroundColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // 加载人像图片
-        const img = canvas.createImage();
-        img.onload = () => {
-          // 计算图片在画布中的位置和尺寸
-          // 保持图片的宽高比，并确保底部对齐
-          const scale = Math.min(
-            canvas.width / img.width,
-            canvas.height / img.height
-          );
-          
-          const scaledWidth = img.width * scale;
-          const scaledHeight = img.height * scale;
-          
-          // 水平居中，底部对齐
-          const x = (canvas.width - scaledWidth) / 2;
-          const y = canvas.height - scaledHeight;
-
-          // 绘制人像
-          ctx.drawImage(
-            img,
-            x, y,
-            scaledWidth,
-            scaledHeight
-          );
-
-          // 如果是免费版本，添加水印
-          if (!this.data.isPaid) {
-            this.addWatermark(ctx, canvas.width, canvas.height);
-          }
-
-          // 导出画布图片并保存
-          wx.canvasToTempFilePath({
-            canvas,
-            success: (res) => {
-              // 上传到云存储
-              storageApi.uploadImage(res.tempFilePath)
-                .then(result => {
-                  if (!result.success) {
-                    throw new Error('保存图片失败');
-                  }
-
-                  // 保存到相册
-                  return wx.saveImageToPhotosAlbum({
-                    filePath: res.tempFilePath
-                  });
-                })
-                .then(() => {
-                  this.setData({ isLoading: false });
+                if (err.errMsg && err.errMsg.indexOf('auth deny') >= 0) {
                   Toast({
                     context: this,
                     selector: '#t-toast',
-                    message: '照片已保存到相册'
+                    message: '请授权保存图片到相册',
+                    theme: 'error',
                   });
-                })
-                .catch(err => {
-                  this.setData({ isLoading: false });
-                  console.error('保存图片失败', err);
-
-                  if (err.errMsg && err.errMsg.indexOf('auth deny') >= 0) {
-                    Toast({
-                      context: this,
-                      selector: '#t-toast',
-                      message: '请授权保存图片到相册',
-                      theme: 'error',
-                    });
-                    this.openAuthSetting();
-                  } else {
-                    Toast({
-                      context: this,
-                      selector: '#t-toast',
-                      message: err.message || '保存失败，请重试',
-                      theme: 'error',
-                    });
-                  }
-                });
-            },
-            fail: (err) => {
-              this.setData({ isLoading: false });
-              console.error('导出图片失败', err);
-              Toast({
-                context: this,
-                selector: '#t-toast',
-                message: '生成图片失败，请重试',
-                theme: 'error',
+                  this.openAuthSetting();
+                } else {
+                  Toast({
+                    context: this,
+                    selector: '#t-toast',
+                    message: err.message || '保存失败，请重试',
+                    theme: 'error',
+                  });
+                }
               });
-            }
-          });
-        };
-
-        img.onerror = (err) => {
-          this.setData({ isLoading: false });
-          console.error('加载图片失败', err);
-          Toast({
-            context: this,
-            selector: '#t-toast',
-            message: '加载图片失败，请重试',
-            theme: 'error',
-          });
-        };
-
-        img.src = this.data.photoUrl;
+          },
+          fail: (err) => {
+            this.setData({ isLoading: false });
+            console.error('导出图片失败', err);
+            Toast({
+              context: this,
+              selector: '#t-toast',
+              message: '生成图片失败，请重试',
+              theme: 'error',
+            });
+          }
+        });
       });
   },
 
@@ -541,63 +485,137 @@ Page({
         const canvas = res[0].node;
         const ctx = canvas.getContext('2d');
 
-        // 获取画布容器的实际尺寸
-        const containerWidth = res[0].width;
-        const containerHeight = res[0].height;
+        // 物理尺寸转像素
+        const mmToPixels = (mm) => Math.round((mm / 25.4) * 300);
+        const canvasWidth = mmToPixels(this.data.photoSize.width);
+        const canvasHeight = mmToPixels(this.data.photoSize.height);
 
-        // 设置画布尺寸为容器的实际尺寸
-        canvas.width = containerWidth;
-        canvas.height = containerHeight;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
 
-        // 绘制背景色
         ctx.fillStyle = this.data.backgroundColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 加载人像图片
         const img = canvas.createImage();
         img.onload = () => {
-          // 计算图片在画布中的位置和尺寸
-          // 保持图片的宽高比，并确保底部对齐
-          const scale = Math.min(
-            canvas.width / img.width,
-            canvas.height / img.height
-          );
-          
-          const scaledWidth = img.width * scale;
-          const scaledHeight = img.height * scale;
-          
-          // 水平居中，底部对齐
-          const x = (canvas.width - scaledWidth) / 2;
-          const y = canvas.height - scaledHeight;
-
-          // 绘制人像
-          ctx.drawImage(
-            img,
-            x, y,
-            scaledWidth,
-            scaledHeight
-          );
-
-          // 如果是免费版本，添加水印
-          if (!this.data.isPaid) {
-            this.addWatermark(ctx, canvas.width, canvas.height);
+          // 使用离屏canvas进行像素分析和裁剪
+          let offCanvas, offCtx;
+          if (wx.createOffscreenCanvas) {
+            // 基础库2.16.1及以上，使用离屏canvas
+            offCanvas = wx.createOffscreenCanvas({ type: '2d', width: img.width, height: img.height });
+            offCtx = offCanvas.getContext('2d');
+          } else {
+            // 低版本兼容，使用主canvas
+            offCanvas = canvas;
+            offCtx = ctx;
           }
+          offCtx.clearRect(0, 0, img.width, img.height);
+          offCtx.drawImage(img, 0, 0, img.width, img.height);
 
-          // 导出图片
-          this.exportCanvasImage(canvas);
+          try {
+            const imageData = offCtx.getImageData(0, 0, img.width, img.height);
+            const data = imageData.data;
+            let minX = img.width, minY = img.height, maxX = 0, maxY = 0;
+            let found = false;
+            let transparentCount = 0, nonTransparentCount = 0;
+            for (let y = 0; y < img.height; y++) {
+              for (let x = 0; x < img.width; x++) {
+                const idx = (y * img.width + x) * 4;
+                const a = data[idx + 3];
+                if (a === 0) {
+                  transparentCount++;
+                } else {
+                  nonTransparentCount++;
+                  found = true;
+                  if (x < minX) minX = x;
+                  if (x > maxX) maxX = x;
+                  if (y < minY) minY = y;
+                  if (y > maxY) maxY = y;
+                }
+              }
+            }
+            // 输出调试信息
+            console.log('图片尺寸:', img.width, img.height);
+            console.log('透明像素数:', transparentCount, '非透明像素数:', nonTransparentCount, '总像素:', img.width * img.height);
+            if (found) {
+              console.log('人像区域裁剪坐标:', { minX, minY, maxX, maxY, cropWidth: maxX - minX + 1, cropHeight: maxY - minY + 1 });
+            } else {
+              console.log('未检测到人像区域');
+            }
+            if (!found) {
+              Toast({
+                context: this,
+                selector: '#t-toast',
+                message: '未检测到人像区域',
+                theme: 'error',
+              });
+              return;
+            }
+            const cropWidth = maxX - minX + 1;
+            const cropHeight = maxY - minY + 1;
+
+            // 清空主画布，重新绘制背景
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = this.data.backgroundColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 缩放并居中绘制人像
+            const scale = Math.min(canvas.width / cropWidth, canvas.height / cropHeight);
+            const drawWidth = cropWidth * scale;
+            const drawHeight = cropHeight * scale;
+            const dx = (canvas.width - drawWidth) / 2;
+            const dy = (canvas.height - drawHeight) / 2;
+
+            ctx.drawImage(
+              img,
+              minX, minY, cropWidth, cropHeight,
+              dx, dy, drawWidth, drawHeight
+            );
+
+            // 免费版加水印
+            if (!this.data.isPaid) {
+              this.addWatermark(ctx, canvas.width, canvas.height);
+            }
+
+            this.exportCanvasImage(canvas);
+          } catch (e) {
+            Toast({
+              context: this,
+              selector: '#t-toast',
+              message: '裁剪人像失败，请升级基础库或更换设备',
+              theme: 'error',
+            });
+          }
         };
-
-        img.onerror = (err) => {
-          console.error('加载图片失败', err);
-          Toast({
-            context: this,
-            selector: '#t-toast',
-            message: '加载图片失败，请重试',
-            theme: 'error',
+        
+        // 新逻辑：判断是否为网络图片，优先本地临时路径
+        if (this.data.photoUrl && this.data.photoUrl.startsWith('http')) {
+          wx.downloadFile({
+            url: this.data.photoUrl,
+            success: (res) => {
+              if (res.statusCode === 200) {
+                img.src = res.tempFilePath;
+              } else {
+                Toast({
+                  context: this,
+                  selector: '#t-toast',
+                  message: '图片下载失败',
+                  theme: 'error',
+                });
+              }
+            },
+            fail: (err) => {
+              Toast({
+                context: this,
+                selector: '#t-toast',
+                message: '图片下载失败',
+                theme: 'error',
+              });
+            }
           });
-        };
-
-        img.src = this.data.photoUrl;
+        } else {
+          img.src = this.data.photoUrl;
+        }
       });
   },
 

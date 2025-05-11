@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
   // 获取基础信息
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
-  const UNIONID  = wxContext.UNIONID;
+  const unionid  = wxContext.UNIONID;
 
   if (!openid) {
     return {
